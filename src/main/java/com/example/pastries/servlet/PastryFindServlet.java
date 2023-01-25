@@ -10,12 +10,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 
 @WebServlet(urlPatterns = "/pastry-find")
@@ -26,18 +22,14 @@ public class PastryFindServlet extends HttpServlet {
 
         String search = req.getParameter("s");
 
-        Optional<Pastry> pastry = DaoFactory.createPastryDao().findByName(search);
+        List<Pastry> pastryList = DaoFactory.createPastryDao().findByName(search);
 
-        System.out.println(search);
-        /*req.setAttribute("pastryList", );
+
+        req.setAttribute("pastryList", pastryList );
 
 
         RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/pastry-find.jsp");
 
-        rd.forward(req,resp);*/
+        rd.forward(req,resp);
     }
-
-
-
-
 }
