@@ -6,7 +6,6 @@ import jakarta.persistence.Persistence;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class PastryDao implements Dao<Pastry> {
     private EntityManager em;
@@ -15,12 +14,12 @@ public class PastryDao implements Dao<Pastry> {
     }
 
     @Override
-    public Optional<Pastry> get(Long id) {
-        return this.getAll().stream().filter(g -> g.getId().equals(id)).findFirst();
+    public Pastry get(Long id) {
+        return em.createQuery("SELECT p FROM Pastry p WHERE p.id = ?1 ", Pastry.class).setParameter(1, id).getSingleResult();
     }
 
-    public Optional<Pastry> findByName(String name) {
-        return this.getAll().stream().filter(g -> g.getName().equals(name)).findAny();
+    public List<Pastry> findByName(String name) {
+        return em.createQuery("SELECT p FROM Pastry p WHERE p.name LIKE ?1 ", Pastry.class).setParameter(1, '%' + name + '%').getResultList();
     }
 
     @Override
@@ -40,19 +39,17 @@ public class PastryDao implements Dao<Pastry> {
 
     @Override
     public void create(Pastry pastry) {
-
-            try {
-                em.getTransaction().begin();
-                em.persist(pastry);
-                em.getTransaction().commit();
-            } catch (Exception e) {
-                if (em.getTransaction().isActive()) {
-                    em.getTransaction().rollback();
-                }
-            } finally {
-                em.close();
+        try {
+            em.getTransaction().begin();
+            em.persist(pastry);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
             }
-
+        } finally {
+            em.close();
+        }
     }
 
     @Override
@@ -62,7 +59,6 @@ public class PastryDao implements Dao<Pastry> {
 
     @Override
     public void delete(Pastry pastry) {
-        System.out.println("delete");
         try {
             em.getTransaction().begin();
             em.remove(em.contains(pastry) ? pastry : em.merge(pastry));
