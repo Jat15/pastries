@@ -15,11 +15,30 @@ public class PastryDao implements Dao<Pastry> {
 
     @Override
     public Pastry get(Long id) {
-        return em.createQuery("SELECT p FROM Pastry p WHERE p.id = ?1 ", Pastry.class).setParameter(1, id).getSingleResult();
+        Pastry pastry = null;
+
+        try {
+            pastry = em.createQuery("SELECT p FROM Pastry p WHERE p.id = ?1 ", Pastry.class).setParameter(1, id).getSingleResult();
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            em.close();
+        }
+        return pastry ;
     }
 
     public List<Pastry> findByName(String name) {
-        return em.createQuery("SELECT p FROM Pastry p WHERE p.name LIKE ?1 ", Pastry.class).setParameter(1, '%' + name + '%').getResultList();
+        List<Pastry> pastries = new ArrayList<>();
+
+        try {
+            pastries =  em.createQuery("SELECT p FROM Pastry p WHERE p.name LIKE ?1 ", Pastry.class).setParameter(1, '%' + name + '%').getResultList();
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            em.close();
+        }
+
+        return pastries;
     }
 
     @Override
