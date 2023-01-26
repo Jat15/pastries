@@ -13,7 +13,7 @@
                     <a class="nav-link" href="${pageContext.request.contextPath}/pastry-add">Add</a>
                 </li>
             </ul>
-            <form class="d-flex" role="search" method="post" action="${pageContext.request.contextPath}/pastry-find">
+            <form class="d-flex" role="search" method="get" action="${pageContext.request.contextPath}/pastry-list">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="s">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>

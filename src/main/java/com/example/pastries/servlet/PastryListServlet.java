@@ -18,11 +18,16 @@ import java.util.List;
 public class PastryListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String search = req.getParameter("s");
+        List<Pastry> pastryList;
 
+        if ( search != null ) {
+            pastryList = DaoFactory.createPastryDao().findByName(search);
+        } else {
+            pastryList = DaoFactory.createPastryDao().getAll();
+        }
 
-        List<Pastry> pastryList = DaoFactory.createPastryDao().getAll();
         req.setAttribute("pastryList", pastryList);
-
 
         String status = req.getParameter("status");
         req.setAttribute("status", status);
@@ -31,6 +36,5 @@ public class PastryListServlet extends HttpServlet {
         RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/pastry-list.jsp");
 
         rd.forward(req,resp);
-
     }
 }
