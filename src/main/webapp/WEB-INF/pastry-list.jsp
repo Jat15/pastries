@@ -13,7 +13,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
-<body class="container">
+<body class="container-md">
 <header class="row">
     <%@ include file="nav.jsp"%>
     <h1>Pastry list</h1>
@@ -41,7 +41,7 @@
         </div>
     </c:if>
 </header>
-<main class="row row-cols-2 row-cols-lg-4">
+<main class="row row-cols-1 row-cols-lg-4 justify-content-center">
 
 
 
