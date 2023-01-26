@@ -52,7 +52,7 @@
              src="https://sauvageboris.fr/training/api/pastries/images/${pastry.img}">
         <div class="card-body"><h5 class="card-title">${pastry.name}</h5>
             <p class="card-text overflow-y-scroll pastry-height-25">${pastry.description}</p>
-          <a class="btn btn-primary" data-bcup-haslogintext="no" href="${pageContext.request.contextPath}/pastry-delete?id=${pastry.id}">Click</a></div>
+          <a class="btn btn-primary" data-bcup-haslogintext="no" href="${pageContext.request.contextPath}/pastry-delete?id=${pastry.id}">Delete</a></div>
       </div>
     </c:forEach>
 
