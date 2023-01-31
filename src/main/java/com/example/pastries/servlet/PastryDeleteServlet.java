@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @WebServlet(urlPatterns = "/pastry-delete")
 public class PastryDeleteServlet extends HttpServlet {
@@ -21,10 +22,11 @@ public class PastryDeleteServlet extends HttpServlet {
         try {
             Long id = Long.parseLong(paramId);
 
-            Pastry pastry = DaoFactory.createPastryDao().get(id);
+            Optional<Pastry> pastry = DaoFactory.createPastryDao().get(id);
 
-
-            DaoFactory.createPastryDao().delete(pastry);
+            if (pastry.isPresent()){
+                DaoFactory.createPastryDao().delete(pastry.get());
+            }
             param = "delete_pastry";
         } catch (Exception e) {
             param = "error_delete_pastry";
