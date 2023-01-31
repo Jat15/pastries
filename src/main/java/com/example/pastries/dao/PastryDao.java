@@ -2,10 +2,12 @@ package com.example.pastries.dao;
 
 import com.example.pastries.dao.entity.Pastry;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class PastryDao implements Dao<Pastry> {
     private EntityManager em;
@@ -14,11 +16,11 @@ public class PastryDao implements Dao<Pastry> {
     }
 
     @Override
-    public Pastry get(Long id) {
-        Pastry pastry = null;
+    public Optional<Pastry> get(Long id) {
+        Optional <Pastry> pastry = Optional.empty();
 
         try {
-            pastry = em.createQuery("SELECT p FROM Pastry p WHERE p.id = ?1 ", Pastry.class).setParameter(1, id).getSingleResult();
+            pastry = Optional.of(em.createQuery("SELECT p FROM Pastry p WHERE p.id = ?1 ", Pastry.class).setParameter(1, id).getSingleResult());
         } catch (Exception e) {
             System.out.println(e);
         } finally {
@@ -73,7 +75,18 @@ public class PastryDao implements Dao<Pastry> {
 
     @Override
     public void update(Pastry pastry) {
-
+        EntityTransaction et = em.getTransaction();
+        et.begin();
+        try {
+            em.merge(pastry);
+            et.commit();
+        } catch (Exception e) {
+            if (et.isActive()) {
+                et.rollback();
+            }
+        } finally {
+            em.close();
+        }
     }
 
     @Override
