@@ -34,9 +34,6 @@
         <div class="text-center mb-3">
             <button type="submit" class="btn btn-primary">Add</button>
         </div>
-
-
-
     </form>
 
 </main>
